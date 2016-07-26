@@ -35,7 +35,7 @@ set(DOC_PRIVATE_INPUT_LIST )
 # they are what controls the project build flow.
 
 if( BUILD_UTILITIES )
-    # Async library
+    # Utilities library
     add_subdirectory( ${SRC_ROOT}/src/Utilities
                       ${OUT_ROOT}/Utilities )
 
@@ -49,7 +49,7 @@ endif()
 if( RUN_UNIT_TESTS )
 
     if( BUILD_UTILITIES )
-        # Async unit tests
+        # Utilities unit tests
         add_subdirectory( ${SRC_ROOT}/unitTest/Utilities
                           ${OUT_ROOT}/UtilitiesUnit )
     endif()
