@@ -36,7 +36,9 @@ def downloadBuildScripts():
                             mostRecentBuildScriptsRecord["fileName"] + mostRecentBuildScriptsRecord["filetype"])
     response = requests.get(urljoin(os.environ["FILESERVER_URI"], "BuildScripts/",
                                     mostRecentBuildScriptsRecord["fileName"] + mostRecentBuildScriptsRecord["filetype"]),
-                            stream=True)
+                            stream=True,
+                            auth=requests.auth.HTTPBasicAuth(os.environ["DBFILESERVER_USERNAME"],
+                                                             os.environ["DBFILESERVER_PASSWORD"]))
 
     numBytes = len(response.content)
     currentBytes = 0.0
