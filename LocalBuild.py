@@ -106,6 +106,7 @@ class LocalBuild(ProjectBuild.ProjectBuild):
                              self.package,
                              self.uploadPackagedVersion]
         self._tests_to_run = ["Utilities_unit"]
+        self._cover = True
 
     # def generateConfig(self, asyncConfigPath=None, asyncConfigFileName=None):
     #     outIncludeDir = os.path.join(FileSystem.getDirectory(FileSystem.OUT_ROOT),
