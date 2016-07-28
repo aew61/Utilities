@@ -29,9 +29,9 @@ get_filename_component( CONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/o
 
 # this is where we could get the Version numbering from Version.h and
 # save them as CMake variables. for now, lets just declare them
-set( PROJECT_VERSION_MAJOR "1" )
-set( PROJECT_VERSION_MINOR "0" )
-set( PROJECT_VERSION_PATCH "0" )
+# set( PROJECT_VERSION_MAJOR "1" )
+# set( PROJECT_VERSION_MINOR "0" )
+# set( PROJECT_VERSION_PATCH "0" )
 
 # Source files
 set( UTILITIES_SRCS
