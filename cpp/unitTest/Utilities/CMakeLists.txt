@@ -68,7 +68,10 @@ if( RUN_UNIT_TESTS )
         elseif( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
             include( GNUInstallDirs )
             set(TARGET_PTHREADS_LIB "pthread" )
-            set( TARGET_GCOV_LIB "gcov" )
+
+            # this process would work, just in doing so would make it hard
+            # to import binaries and run them like with FT and RT projects.
+            # set( TARGET_GCOV_LIB "gcov" )
         elseif( APPLE )
             include( GNUInstallDirs )
             set(TARGET_PTHREADS_LIB "pthread")
@@ -90,7 +93,7 @@ if( RUN_UNIT_TESTS )
             message( "Linking executable for Debug" )
             target_link_libraries( ${PROJECT_NAME}
                 ${TARGET_PTHREADS_LIB}
-                ${TARGET_GCOV_LIB}
+            #     ${TARGET_GCOV_LIB}
             )
             # if( ENABLE_COVERAGE AND ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
             #     message("LINKING UTILITIES WITH GCOV")
