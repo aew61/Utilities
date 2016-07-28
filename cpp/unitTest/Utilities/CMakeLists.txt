@@ -68,6 +68,7 @@ if( RUN_UNIT_TESTS )
         elseif( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
             include( GNUInstallDirs )
             set(TARGET_PTHREADS_LIB "pthread" )
+            set( TARGET_GCOV_LIB "gcov" )
         elseif( APPLE )
             include( GNUInstallDirs )
             set(TARGET_PTHREADS_LIB "pthread")
@@ -90,6 +91,11 @@ if( RUN_UNIT_TESTS )
             target_link_libraries( ${PROJECT_NAME}
                 ${TARGET_PTHREADS_LIB}
             )
+            if( ENABLE_COVERAGE AND ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
+                target_link_libraries( ${PROJECT_NAME}
+                    ${TARGET_GCOV_LIB}
+                )
+            endif()
         else()
             message( "Linking executable for Release" )
             target_link_libraries( ${PROJECT_NAME}
