@@ -92,6 +92,8 @@ if( RUN_UNIT_TESTS )
                 ${TARGET_PTHREADS_LIB}
             )
             if( ENABLE_COVERAGE AND ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
+                message("LINKING UTILITIES WITH GCOV")
+                message("CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
                 target_link_libraries( ${PROJECT_NAME}
                     ${TARGET_GCOV_LIB}
                 )
