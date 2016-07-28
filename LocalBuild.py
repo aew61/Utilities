@@ -101,12 +101,12 @@ import FileSystem
 class LocalBuild(ProjectBuild.ProjectBuild):
     def __init__(self):
         super(LocalBuild, self).__init__("Utilities")
+        self._cover = True
         self._build_steps = [self.build,
-                             self.runUnitTests,
+                             self.coverWithUnit,
                              self.package,
                              self.uploadPackagedVersion]
         self._tests_to_run = ["Utilities_unit"]
-        self._cover = True
 
     # def generateConfig(self, asyncConfigPath=None, asyncConfigFileName=None):
     #     outIncludeDir = os.path.join(FileSystem.getDirectory(FileSystem.OUT_ROOT),
