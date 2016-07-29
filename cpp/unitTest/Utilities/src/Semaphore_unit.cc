@@ -2,16 +2,18 @@
 #include <gtest/gtest.h>
 
 // C++ PROJECT INCLUDES
-#include "Utilities/AddInts.h"
+#include "Utilities/Semaphore.h"
 
 namespace Utilities
 {
 namespace UnitTest
 {
 
-    TEST(SimpleUtilitiesTest, TestAddInts)
+    TEST(UtilitiesTest, SimpleSemaphoreTest)
     {
-        EXPECT_EQ(8, AddInts(5, 3));
+        Semaphore sem(3);
+
+        EXPECT_EQ(sem.GetCount(), 3) << "sem was initalized with a count of 3";
     }
 
 } // end of namespace UnitTest

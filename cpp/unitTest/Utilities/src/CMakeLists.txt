@@ -9,8 +9,8 @@ set( CMAKE_VERBOSE_MAKEFILE "ON" )
 
 # this points to the root of the cmake directory
 # which contains all the toolchains and modules
-get_filename_component( CMAKE_LOCAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake ABSOLUTE )
-get_filename_component( CMAKE_GLOBAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/cmake ABSOLUTE )
+get_filename_component( CMAKE_LOCAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../cmake ABSOLUTE )
+get_filename_component( CMAKE_GLOBAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../build/cmake ABSOLUTE )
 
 list( APPEND CMAKE_MODULE_PATH ${CMAKE_LOCAL_ROOT}/modules )
 list( APPEND CMAKE_MODULE_PATH ${CMAKE_GLOBAL_ROOT}/modules )
@@ -19,12 +19,15 @@ list( APPEND CMAKE_MODULE_PATH ${CMAKE_GLOBAL_ROOT}/modules )
 project( Utilities_unit CXX )
 
 # source code root directory
-get_filename_component( SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR} ABSOLUTE )
+get_filename_component( TEST_SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR} ABSOLUTE )
+get_filename_component( SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../src ABSOLUTE )
 
 # Public header file root directory
-get_filename_component( INC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../include ABSOLUTE )
+get_filename_component( TEST_INC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../include ABSOLUTE )
 
-get_filename_component( CONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/out/include ABSOLUTE )
+get_filename_component( INC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../include ABSOLUTE )
+
+get_filename_component( CONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../build/out/include ABSOLUTE )
 
 
 if( RUN_UNIT_TESTS )
@@ -44,11 +47,11 @@ if( RUN_UNIT_TESTS )
         set( UTILITIES_UNIT_SOURCES
 
             # Utilities sources
-            ${SRC_ROOT}/../../src/Utilities/AddInts.cpp
+            ${SRC_ROOT}/Utilities/Semaphore.cc
 
             # AsyncUnitTests sources
-            ${SRC_ROOT}/TestAddInts.cpp
-            ${SRC_ROOT}/main.cpp
+            ${TEST_SRC_ROOT}/Semaphore_unit.cc
+            ${TEST_SRC_ROOT}/main.cc
         )
 
         set( UTILITIES_UNIT_HEADERS
@@ -57,8 +60,7 @@ if( RUN_UNIT_TESTS )
         # directories to search for header files
         set( INCLUDE_DIRS
             ${INC_ROOT}
-            ${SRC_ROOT}/../..
-            ${CMAKE_CURRENT_SOURCE_DIR}/..
+            ${TEST_INC_ROOT}
             ${CONFIG_ROOT}
             ${${PROJECT_NAME}_INCLUDES} # the list of include dirs found by ProjectLinker
         )

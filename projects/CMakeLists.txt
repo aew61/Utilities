@@ -50,7 +50,7 @@ if( RUN_UNIT_TESTS )
 
     if( BUILD_UTILITIES )
         # Utilities unit tests
-        add_subdirectory( ${SRC_ROOT}/unitTest/Utilities
+        add_subdirectory( ${SRC_ROOT}/unitTest/Utilities/src
                           ${OUT_ROOT}/UtilitiesUnit )
     endif()
 

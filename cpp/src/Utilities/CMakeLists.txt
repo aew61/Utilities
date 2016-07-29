@@ -35,13 +35,13 @@ get_filename_component( CONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/o
 
 # Source files
 set( UTILITIES_SRCS
-    ${SRC_ROOT}/AddInts.cpp
+    ${SRC_ROOT}/Semaphore.cc
 )
 
 # Public header files (installed together with libraries)
 set( UTILITIES_PUBLIC_HEADERS
     ${INC_ROOT}/Utilities/LibraryExport.h
-    ${INC_ROOT}/Utilities/AddInts.h
+    ${INC_ROOT}/Utilities/Semaphore.h
 )
 
 set( UTILITIES_PRIVATE_HEADERS
