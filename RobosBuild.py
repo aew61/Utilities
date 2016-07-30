@@ -159,11 +159,11 @@ class LocalBuild(ProjectBuild.ProjectBuild):
     #                    "} // end of namespace Config\n"
     #                    "} // end of namespace " + self._project_name + "\n")
 
-    def customSetupWorkspace(self):
-        print("Setting up workspaces for project [%s]" % self._project_name)
-        self.cleanBuildWorkspace()
-        Utilities.mkdir(FileSystem.getDirectory(FileSystem.WORKING, self._config, self._project_name))
-        self.loadDependencies(self.parseDependencyFile())
+    def customSetupWorkspace(self, node):
+        print("Setting up workspaces for package [%s]" % node._name)
+        self.cleanBuildWorkspace(node)
+        Utilities.mkdir(FileSystem.getDirectory(FileSystem.WORKING, self._config, node._name))
+        self.loadDependencies(node)
 
     # def customPreBuild(self, asyncConfigPath=None, asyncConfigFileName=None):
     #     self.customSetupWorkspace()

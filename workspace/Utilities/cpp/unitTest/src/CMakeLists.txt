@@ -9,8 +9,8 @@ set( CMAKE_VERBOSE_MAKEFILE "ON" )
 
 # this points to the root of the cmake directory
 # which contains all the toolchains and modules
-get_filename_component( CMAKE_LOCAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../cmake ABSOLUTE )
-get_filename_component( CMAKE_GLOBAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../build/cmake ABSOLUTE )
+get_filename_component( CMAKE_LOCAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake ABSOLUTE )
+get_filename_component( CMAKE_GLOBAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../build/cmake ABSOLUTE )
 
 list( APPEND CMAKE_MODULE_PATH ${CMAKE_LOCAL_ROOT}/modules )
 list( APPEND CMAKE_MODULE_PATH ${CMAKE_GLOBAL_ROOT}/modules )
@@ -20,14 +20,14 @@ project( Utilities_unit CXX )
 
 # source code root directory
 get_filename_component( TEST_SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR} ABSOLUTE )
-get_filename_component( SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../src ABSOLUTE )
+get_filename_component( SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../src ABSOLUTE )
 
 # Public header file root directory
 get_filename_component( TEST_INC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../include ABSOLUTE )
 
-get_filename_component( INC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../include ABSOLUTE )
+get_filename_component( INC_ROOT ${SRC_ROOT}/../include ABSOLUTE )
 
-get_filename_component( CONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../build/out/include ABSOLUTE )
+get_filename_component( CONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../build/out/include ABSOLUTE )
 
 
 if( RUN_UNIT_TESTS )
@@ -47,7 +47,7 @@ if( RUN_UNIT_TESTS )
         set( UTILITIES_UNIT_SOURCES
 
             # Utilities sources
-            ${SRC_ROOT}/Utilities/Semaphore.cc
+            ${SRC_ROOT}/Semaphore.cc
 
             # AsyncUnitTests sources
             ${TEST_SRC_ROOT}/Semaphore_unit.cc
@@ -110,6 +110,14 @@ if( RUN_UNIT_TESTS )
                 ${TARGET_PTHREADS_LIB}
             )
         endif()
+
+        if( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR APPLE )
+            add_custom_target( build_time_make_directory ALL
+                COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_PREFIX_PATH}/bin)
+        endif()
+        add_custom_command(TARGET ${PROJECT_NAME}
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_NAME} ${CMAKE_PREFIX_PATH}/bin)
 
     else()
         message( WARNING "Gtest Framework not found...skipping unit tests")

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<package>
+    <name>Utilities</name>
+    <description>Usefule OS operations and other structures / functions</description>
+    <maintainer>Andrew Wood</maintainer>
+    <email>aew61@case.edu</email>
+
+    <robos_package_dependency>gtest</robos_package_dependency>
+</package>
