@@ -173,15 +173,15 @@ if( RUN_UNIT_TESTS )
 
         include_directories( ${INCLUDE_DIRS} )
 
-        add_executable( ${PROJECT_NAME}_Unit ${UTILITIES_UNIT_SOURCES} ${UTILITIES_UNIT_HEADERS} )
+        add_executable( ${PROJECT_NAME}_unit ${UTILITIES_UNIT_SOURCES} ${UTILITIES_UNIT_HEADERS} )
         if( ${${PROJECT_NAME}_IMPORTED_LIBS_LENGTH} GREATER 0 )
-            target_link_libraries( ${PROJECT_NAME}_Unit ${${PROJECT_NAME}_IMPORTED_LIBS} )
+            target_link_libraries( ${PROJECT_NAME}_unit ${${PROJECT_NAME}_IMPORTED_LIBS} )
         endif()
 
         string( TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER )
         if( CMAKE_BUILD_TYPE_LOWER STREQUAL "debug" )
             message( "Linking executable for Debug" )
-            target_link_libraries( ${PROJECT_NAME}_Unit
+            target_link_libraries( ${PROJECT_NAME}_unit
                 ${PROJECT_NAME}
                 ${TARGET_PTHREADS_LIB}
             #     ${TARGET_GCOV_LIB}
@@ -195,7 +195,7 @@ if( RUN_UNIT_TESTS )
             # endif()
         else()
             message( "Linking executable for Release" )
-            target_link_libraries( ${PROJECT_NAME}_Unit
+            target_link_libraries( ${PROJECT_NAME}_unit
                 ${PROJECT_NAME}
                 ${TARGET_PTHREADS_LIB}
             )
