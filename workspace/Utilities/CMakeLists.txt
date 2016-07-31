@@ -58,7 +58,6 @@ set( INCLUDE_DIRS
     ${INC_ROOT}
     ${SRC_ROOT}
     ${CONFIG_ROOT}
-    ${CMAKE_PREFIX_PATH}/include
 )
 
 set( UTILITIES_COMPILE_DEFINITIONS )
@@ -70,19 +69,9 @@ set( DEPENDENCY_CHECK FALSE )
 
 include( GNUInstallDirs )
 
-# set( ${PROJECT_NAME}_IMPORTED_LIST
-#     # all libraries to import when building Async
-# )
-# include(ProjectLinker)
-
-# if( NOT DEPENDENCY_CHECK )
-#     message( SEND_ERROR "Required header files or libraries not found" )
-# endif()
-
-include_directories( ${INCLUDE_DIRS} )
-
-# Logging library
-set( UTILITIES_LIB_NAME ${PROJECT_NAME} )
+set( ${PROJECT_NAME}_IMPORTED_LIST
+    # all libraries to import when building Async
+)
 
 include(rbuild)
 
@@ -91,7 +80,8 @@ rbuild_add_shared_library( ${PROJECT_NAME}
     "${UTILITIES_PUBLIC_HEADERS}"
     "${UTILITIES_PRIVATE_HEADERS}"
     "${UTILITIES_COMPILE_DEFINITIONS}"
-    ""
+    "${${PROJECT_NAME}_IMPORTED_LIST}"
+    "${INCLUDE_DIRS}"
 )
 
 if( RUN_UNIT_TESTS )
@@ -115,20 +105,17 @@ if( RUN_UNIT_TESTS )
     set( UTILITIES_UNIT_HEADERS
     )
 
-    # directories to search for header files
     set( INCLUDE_DIRS
         ${INC_ROOT}
         ${TEST_INC_ROOT}
         ${CONFIG_ROOT}
-        ${${PROJECT_NAME}_INCLUDES} # the list of include dirs found by ProjectLinker
     )
-
-    include_directories( ${INCLUDE_DIRS} )
     
     rbuild_add_gtest( ${PROJECT_NAME}_unit
         "${UTILITIES_UNIT_SOURCES}"
         "${UTILITIES_UNIT_HEADERS}"
         "${${PROJECT_NAME}_IMPORTED_LIST}"
+        "${INCLUDE_DIRS}"
     )
     if( TARGET ${PROJECT_NAME}_unit )
         target_link_libraries( ${PROJECT_NAME}_unit ${PROJECT_NAME} )
