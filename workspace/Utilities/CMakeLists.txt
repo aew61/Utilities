@@ -135,7 +135,7 @@ if( RUN_UNIT_TESTS )
         set( UTILITIES_UNIT_SOURCES
 
             # Utilities sources
-            ${SRC_ROOT}/Semaphore.cc
+            # ${SRC_ROOT}/Semaphore.cc
 
             # AsyncUnitTests sources
             ${TEST_SRC_ROOT}/Semaphore_unit.cc
@@ -169,11 +169,11 @@ if( RUN_UNIT_TESTS )
             message(SEND_ERROR "OS [${CMAKE_SYSTEM_NAME}] not supported")
         endif()
 
-        add_definitions(-DUTILITIES_STATIC_DEFINE) #
+        # add_definitions(-DUTILITIES_STATIC_DEFINE) #
 
         include_directories( ${INCLUDE_DIRS} )
 
-        add_executable( ${PROJECT_NAME}_Unit ${UTILITIES_UNIT_SOURCES} )
+        add_executable( ${PROJECT_NAME}_Unit ${UTILITIES_UNIT_SOURCES} ${UTILITIES_UNIT_HEADERS} )
         if( ${${PROJECT_NAME}_IMPORTED_LIBS_LENGTH} GREATER 0 )
             target_link_libraries( ${PROJECT_NAME}_Unit ${${PROJECT_NAME}_IMPORTED_LIBS} )
         endif()
@@ -182,6 +182,7 @@ if( RUN_UNIT_TESTS )
         if( CMAKE_BUILD_TYPE_LOWER STREQUAL "debug" )
             message( "Linking executable for Debug" )
             target_link_libraries( ${PROJECT_NAME}_Unit
+                ${PROJECT_NAME}
                 ${TARGET_PTHREADS_LIB}
             #     ${TARGET_GCOV_LIB}
             )
@@ -195,6 +196,7 @@ if( RUN_UNIT_TESTS )
         else()
             message( "Linking executable for Release" )
             target_link_libraries( ${PROJECT_NAME}_Unit
+                ${PROJECT_NAME}
                 ${TARGET_PTHREADS_LIB}
             )
         endif()
