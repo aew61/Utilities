@@ -62,6 +62,7 @@ set( INCLUDE_DIRS
     ${CONFIG_ROOT}
 )
 
+include_directories( ${INCLUDE_DIRS} )
 set( UTILITIES_COMPILE_DEFINITIONS )
 
 # check required libraries and header files and such.
