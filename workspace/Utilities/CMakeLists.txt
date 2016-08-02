@@ -121,6 +121,8 @@ if( RUN_UNIT_TESTS )
         ${TEST_INC_ROOT}
         ${CONFIG_ROOT}
     )
+
+    include_directories( ${INCLUDE_DIRS} )
     
     rbuild_add_gtest( ${PROJECT_NAME}_unit
         "${UTILITIES_UNIT_SOURCES}"
