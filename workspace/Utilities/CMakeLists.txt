@@ -39,12 +39,14 @@ get_filename_component( CONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../build/out/
 # Source files
 set( UTILITIES_SRCS
     ${SRC_ROOT}/Semaphore.cc
+    ${SRC_ROOT}/OSUtils.cc
 )
 
 # Public header files (installed together with libraries)
 set( UTILITIES_PUBLIC_HEADERS
     ${INC_ROOT}/Utilities/LibraryExport.h
     ${INC_ROOT}/Utilities/Semaphore.h
+    ${INC_ROOT}/Utilities/OSUtils.h
 )
 
 set( UTILITIES_PRIVATE_HEADERS
@@ -98,11 +100,19 @@ if( RUN_UNIT_TESTS )
 
     # source files
     set( UTILITIES_UNIT_SOURCES
+        ${TEST_SRC_ROOT}/CommonMemory.cc
+        ${TEST_SRC_ROOT}/Waiter.cc
+        ${TEST_SRC_ROOT}/Signaler.cc
+
         ${TEST_SRC_ROOT}/Semaphore_unit.cc
+        ${TEST_SRC_ROOT}/OSUtils_unit.cc
         ${TEST_SRC_ROOT}/main.cc
     )
 
     set( UTILITIES_UNIT_HEADERS
+        ${TEST_INC_ROOT}/CommonMemory.h
+        ${TEST_INC_ROOT}/Waiter.h
+        ${TEST_INC_ROOT}/Signaler.h
     )
 
     set( INCLUDE_DIRS
