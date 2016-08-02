@@ -25,7 +25,7 @@ def downloadBuildScripts():
     if not os.path.exists(downloadedBuildScriptsPath):
         os.makedirs(downloadedBuildScriptsPath)
     client = pymongo.MongoClient(os.environ["MONGODB_URI"])
-    db = client["BuildScripts"]
+    db = client["rbuild"]
     coll = db["src"]
     mostRecentBuildScriptsRecord = [x for x in coll.find(
         {
@@ -34,7 +34,7 @@ def downloadBuildScripts():
     ).sort("build_num")][-1]
     filePath = os.path.join(downloadedBuildScriptsPath,
                             mostRecentBuildScriptsRecord["fileName"] + mostRecentBuildScriptsRecord["filetype"])
-    response = requests.get(urljoin(os.environ["FILESERVER_URI"], "BuildScripts/",
+    response = requests.get(urljoin(os.environ["FILESERVER_URI"], "rbuild/",
                                     mostRecentBuildScriptsRecord["fileName"] + mostRecentBuildScriptsRecord["filetype"]),
                             stream=True,
                             auth=requests.auth.HTTPBasicAuth(os.environ["DBFILESERVER_USERNAME"],
@@ -65,7 +65,7 @@ def updateBuildScripts():
         return True
     # if this method is called, can safely assume build/scripts/ exists
     client = pymongo.MongoClient(os.environ["MONGODB_URI"])
-    db = client["BuildScripts"]
+    db = client["rbuild"]
     coll = db["src"]
     mostRecentBuildScriptsRecord = [x for x in coll.find(
         {
@@ -76,14 +76,14 @@ def updateBuildScripts():
                           mostRecentBuildScriptsRecord["minor_version"],
                           mostRecentBuildScriptsRecord["patch"],
                           mostRecentBuildScriptsRecord["build_num"]]
-    print("Most recent BuildScripts version: %s" % mostRecentBuildNum)
+    print("Most recent rbuild version: %s" % mostRecentBuildNum)
     allVersions = os.listdir(os.path.join(buildScriptsDir, "downloads"))
     if len(allVersions) == 0:
         return True
     downloadedVersions = [[int(x) for x in version.split("_")[1].split(".")]
                           for version in allVersions]
     currentBuild = max(downloadedVersions)
-    print("Currently have BuildScripts version: %s" % currentBuild)
+    print("Currently have rbuild version: %s" % currentBuild)
     return mostRecentBuildNum > currentBuild
     
 
