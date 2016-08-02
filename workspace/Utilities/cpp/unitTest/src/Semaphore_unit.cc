@@ -78,14 +78,10 @@ namespace Tests
             if(i % 2 == 0)
             {
                 threads[i] = std::thread(&Waiter, pCommon);
-                std::this_thread::sleep_for(std::chrono::seconds(1));
-                EXPECT_EQ(--count, pCommon->_sem.GetCount());
             }
             else
             {
                 threads[i] = std::thread(&Signaler, pCommon);
-                std::this_thread::sleep_for(std::chrono::seconds(1));
-                EXPECT_EQ(++count, pCommon->_sem.GetCount());
             }
         }
         if(numThreads % 2 != 0)
