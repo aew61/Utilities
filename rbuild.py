@@ -7,11 +7,11 @@ import sys
 
 currentDir = os.path.dirname(os.path.realpath(__file__))
 buildScriptsDir = os.path.join(currentDir, "build", "scripts")
-sys.path.extend([currentDir, buildScriptsDir])  # now we can import modules from <currentDirectory>/scripts
 
 
 import getRBuild
 getRBuild.checkRBuildVersion()
+sys.path.extend([currentDir, buildScriptsDir])  # now we can import modules from <currentDirectory>/scripts
 
 
 # PYTHON PROJECT IMPORTS

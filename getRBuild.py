@@ -81,6 +81,8 @@ def downloadRBuild():
     numBytes = len(response.content)
     currentBytes = 0.0
     minPercentToPrint = 0
+    print("Downloading rbuild_%s.%s.%s.%s" % (mostRecentRecord["major_version"], mostRecentRecord["minor_version"],
+                                              mostRecentRecord["patch"], mostRecentRecord["build_num"]))
     print("Starting download (%s bytes):" % numBytes)
     with open(filePath, "wb") as f:
         for chunk in response.iter_content(numBytes / 10):
