@@ -1,95 +1,17 @@
 
 # SYSTEM IMPORTS
 import os
-import pymongo
+# import pymongo
 import sys
 
 
 currentDir = os.path.dirname(os.path.realpath(__file__))
 buildScriptsDir = os.path.join(currentDir, "build", "scripts")
-
-
-def urljoin(url, *urls):
-    urlList = [url]
-    urlList.extend([urlPart for urlPart in urls])
-    unrefinedUrl = '/'.join(urlList).strip()
-    unrefinedUrl = unrefinedUrl.replace("//", "/")
-    return unrefinedUrl.replace("http:/", "http://")
-
-
-def downloadBuildScripts():
-    import requests
-    import tarfile
-
-    downloadedBuildScriptsPath = os.path.join(buildScriptsDir, "downloads")
-    if not os.path.exists(downloadedBuildScriptsPath):
-        os.makedirs(downloadedBuildScriptsPath)
-    client = pymongo.MongoClient(os.environ["MONGODB_URI"])
-    db = client["rbuild"]
-    coll = db["src"]
-    mostRecentBuildScriptsRecord = [x for x in coll.find(
-        {
-            "config": "src"
-        }
-    ).sort("build_num")][-1]
-    filePath = os.path.join(downloadedBuildScriptsPath,
-                            mostRecentBuildScriptsRecord["fileName"] + mostRecentBuildScriptsRecord["filetype"])
-    response = requests.get(urljoin(os.environ["FILESERVER_URI"], "rbuild/",
-                                    mostRecentBuildScriptsRecord["fileName"] + mostRecentBuildScriptsRecord["filetype"]),
-                            stream=True,
-                            auth=requests.auth.HTTPBasicAuth(os.environ["DBFILESERVER_USERNAME"],
-                                                             os.environ["DBFILESERVER_PASSWORD"]))
-
-    numBytes = len(response.content)
-    currentBytes = 0.0
-    minPercentToPrint = 0
-    print("Starting download (%s bytes):" % numBytes)
-    with open(filePath, "wb") as f:
-        for chunk in response.iter_content(numBytes / 10):
-            if currentBytes/numBytes >= minPercentToPrint:
-                print("[%s%%]" % int(currentBytes/numBytes * 100)),
-                minPercentToPrint += 0.1
-            f.write(chunk)
-            currentBytes += len(chunk)
-    print("Download done")
-    with tarfile.open(filePath, "r:gz") as tarFile:
-        # extract out scripts and config dirs and move it to currentDir/build
-        tarFile.extractall(path=os.path.join(currentDir, "build"),
-                           members=[x for x in tarFile.getmembers() if "license" not in x.name.lower()\
-                                    and "readme" not in x.name.lower()])
-
-
-def updateBuildScripts():
-    if not os.path.exists(buildScriptsDir):
-        os.makedirs(buildScriptsDir)
-        return True
-    # if this method is called, can safely assume build/scripts/ exists
-    client = pymongo.MongoClient(os.environ["MONGODB_URI"])
-    db = client["rbuild"]
-    coll = db["src"]
-    mostRecentBuildScriptsRecord = [x for x in coll.find(
-        {
-            "config": "src"
-        }
-    ).sort("build_num")][-1]
-    mostRecentBuildNum = [mostRecentBuildScriptsRecord["major_version"],
-                          mostRecentBuildScriptsRecord["minor_version"],
-                          mostRecentBuildScriptsRecord["patch"],
-                          mostRecentBuildScriptsRecord["build_num"]]
-    print("Most recent rbuild version: %s" % mostRecentBuildNum)
-    allVersions = os.listdir(os.path.join(buildScriptsDir, "downloads"))
-    if len(allVersions) == 0:
-        return True
-    downloadedVersions = [[int(x) for x in version.split("_")[1].split(".")]
-                          for version in allVersions]
-    currentBuild = max(downloadedVersions)
-    print("Currently have rbuild version: %s" % currentBuild)
-    return mostRecentBuildNum > currentBuild
-    
-
-if updateBuildScripts():
-    downloadBuildScripts()
 sys.path.extend([currentDir, buildScriptsDir])  # now we can import modules from <currentDirectory>/scripts
+
+
+import getRBuild
+getRBuild.checkRBuildVersion()
 
 
 # PYTHON PROJECT IMPORTS
